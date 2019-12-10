@@ -1,0 +1,17 @@
+plugin: gcp_compute
+projects:
+  - helpful-range-257511
+zones:
+  - europe-west1-b
+
+filters:
+  - machineType = n1-standard-1
+  # - name = 
+
+keyed_groups:
+  - prefix: ''
+    separator: ''
+    key: tags['items']
+
+auth_kind: serviceaccount
+service_account_file: credentials.json
