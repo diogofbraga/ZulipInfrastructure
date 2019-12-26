@@ -36,3 +36,15 @@
           - { index: 5, tag: database-2 }
           - { index: 6, tag: nginx-1 }
           - { index: 7, tag: nginx-2 }
+- hosts: tornado
+  become: yes
+  connection: local
+  gather_facts: no
+  roles:
+    - role: zulip
+- hosts: database-1:database-2
+  become: yes
+  connection: local
+  gather_facts: no
+  roles:
+    - role: postgres

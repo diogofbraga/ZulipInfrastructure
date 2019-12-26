@@ -1,0 +1,7 @@
+- name: Download docker zulip from git
+  git:
+    repo: 'https://github.com/zulip/docker-zulip.git'
+    dest: /root/docker-zulip
+    clone: yes
+- name: install zulip with docker
+  shell: cd /root/docker-zulip && docker-compose pull && docker-compose up

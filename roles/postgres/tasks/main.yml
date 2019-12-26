@@ -1,0 +1,5 @@
+- name: Install postgres in docker
+  docker_image:
+        name: postgresdb
+        path: psotgresDockerfile
+        state: build
