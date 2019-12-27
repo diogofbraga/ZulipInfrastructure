@@ -9,7 +9,7 @@
         gcp_project: helpful-range-257511
         gcp_cred_kind: serviceaccount
         gcp_cred_file: credentials.json
-        gcp_machine_type: f1-micro
+        gcp_machine_type: n1-standard-1
         source_image: projects/ubuntu-os-cloud/global/images/ubuntu-1604-xenial-v20191113
         disk_size: 20
         disks:
@@ -38,13 +38,11 @@
           - { index: 7, tag: nginx-2 }
 - hosts: tornado
   become: yes
-  connection: local
   gather_facts: no
   roles:
     - role: zulip
 - hosts: database-1:database-2
   become: yes
-  connection: local
   gather_facts: no
   roles:
     - role: postgres
