@@ -10,20 +10,21 @@
 - name: Set remote Postgres ip parameter
   replace:
     path: "/etc/zulip/settings.py"
-    regexp: "HOST': '',"
-    replace: "HOST': '{{lookup('file', 'address3.yml') }}',"
+    regexp: "^#REMOTE_POSTGRES_HOST = 'dbserver.example.com'"
+    replace: "REMOTE_POSTGRES_HOST = '{{lookup('file', 'address3.yml') }}'"
 
 - name: Set remote Postgres port parameter
   replace:
     path: "/etc/zulip/settings.py"
-    regexp: "'PASSWORD': '',"
-    replace: "'PASSWORD': 'zulippass',"
+    regexp: "^#REMOTE_POSTGRES_PORT"
+    replace: "REMOTE_POSTGRES_PORT"
+
 
 - name: Specifie postgres password
   lineinfile:
     path: /etc/zulip/zulip-secrets.conf
     line: postgres_password = zulippass
-    insertbefore: BOF
+    insertbefore: EOF
 
 - name: Initialize database
   shell: su zulip -c '/home/zulip/deployments/current/scripts/setup/initialize-database'
