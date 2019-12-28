@@ -1,4 +1,8 @@
+- name: Test
+  file:
+      path: "/home/'{{ addresses }}'.txt"
+      state: touch
 - name: Download zulip
-  shell: cd $(mktemp -d) && wget https://www.zulip.org/dist/releases/zulip-server-latest.tar.gz && tar -xf zulip-server-latest.tar.gz
+  shell: cd /home && wget https://www.zulip.org/dist/releases/zulip-server-latest.tar.gz && tar -xf zulip-server-latest.tar.gz
 - name: Install zulip
-  shell: sudo -s  && ./zulip-server-*/scripts/setup/install --self-signed-cert --email=mail@gmail.com --hostname=zulip.example.com
+  shell: cd /home && ./zulip-server-*/scripts/setup/install --self-signed-cert --email=diogofiliperfbraga@gmail.com --hostname="{{ addr-03 }}"

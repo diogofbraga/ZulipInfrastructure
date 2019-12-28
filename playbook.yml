@@ -40,7 +40,7 @@
   become: yes
   gather_facts: no
   roles:
-    - role: zulip
+    - { role: zulip, addresses: addr-03 }
 - hosts: database-1:database-2
   become: yes
   gather_facts: no
