@@ -1,4 +1,4 @@
 - name: Download zulip
   shell: cd $(mktemp -d) && wget https://www.zulip.org/dist/releases/zulip-server-latest.tar.gz && tar -xf zulip-server-latest.tar.gz
-- name: Install zulip
-  shell: sudo -s  && ./zulip-server-*/scripts/setup/install --self-signed-cert --email=mail@gmail.com --hostname=zulip.example.com
+#- name: Install zulip
+#  shell: sudo -s  && ./zulip-server-*/scripts/setup/install --self-signed-cert --email=mail@gmail.com --hostname=zulip.example.com
