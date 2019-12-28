@@ -27,7 +27,7 @@
     insertbefore: EOF
 
 - name: Initialize database
-  shell: su zulip -c '/home/zulip/deployments/current/scripts/setup/initialize-database'
+  shell: sudo su zulip -c '/home/zulip/deployments/current/scripts/setup/initialize-database'
 
 - name: Generate realm link
-  shell: su zulip -c '/home/zulip/deployments/current/manage.py generate_realm_creation_link' > /home/link.txt
+  shell: sudo su zulip -c '/home/zulip/deployments/current/manage.py generate_realm_creation_link' > /home/link.txt
