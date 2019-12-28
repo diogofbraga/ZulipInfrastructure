@@ -118,3 +118,9 @@
     host: "{{ item }}"
     port: 22
   loop: "{{ groups['all'] }}"
+
+- name: Save addresses
+  local_action: copy content="{{ item }}" dest=address{{my_idx+1}}.yml
+  loop: "{{ groups['all'] }}"
+  loop_control:
+    index_var: my_idx

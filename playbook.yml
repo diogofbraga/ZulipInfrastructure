@@ -48,8 +48,8 @@
       dbname: 'zulip'
       }
 
-#- hosts: tornado
- # become: yes
-  #gather_facts: no
-  #roles:
-    #- { role: zulip, addresses: addr-03 }
+- hosts: tornado
+  become: yes
+  gather_facts: no
+  roles:
+    - { role: zulip, addresses: addr-03 }

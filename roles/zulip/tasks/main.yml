@@ -1,8 +1,32 @@
-- name: Test
-  file:
-      path: "/home/'{{ addresses }}'.txt"
-      state: touch
 - name: Download zulip
   shell: cd /home && wget https://www.zulip.org/dist/releases/zulip-server-latest.tar.gz && tar -xf zulip-server-latest.tar.gz
+
 - name: Install zulip
-  shell: cd /home && ./zulip-server-*/scripts/setup/install --self-signed-cert --email=diogofiliperfbraga@gmail.com --hostname="{{ addr-03 }}"
+  shell: cd /home && ./zulip-server-*/scripts/setup/install --self-signed-cert --email=diogofiliperfbraga@gmail.com --hostname={{lookup('file', 'address2.yml') }}  --remote-postgres
+
+- name: Disable local postgres
+  shell: sudo service postgresql stop &&  sudo update-rc.d postgresql disable
+
+- name: Set remote Postgres ip parameter
+  replace:
+    path: "/etc/zulip/settings.py"
+    regexp: "HOST': '',"
+    replace: "HOST': '{{lookup('file', 'address3.yml') }}',"
+
+- name: Set remote Postgres port parameter
+  replace:
+    path: "/etc/zulip/settings.py"
+    regexp: "'PASSWORD': '',"
+    replace: "'PASSWORD': 'zulippass',"
+
+- name: Specifie postgres password
+  lineinfile:
+    path: /etc/zulip/zulip-secrets.conf
+    line: postgres_password = zulippass
+    insertbefore: BOF
+
+- name: Initialize database
+  shell: su zulip -c '/home/zulip/deployments/current/scripts/setup/initialize-database'
+
+- name: Generate realm link
+  shell: su zulip -c '/home/zulip/deployments/current/manage.py generate_realm_creation_link' > /home/link.txt
