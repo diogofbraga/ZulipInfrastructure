@@ -4,8 +4,8 @@
   roles:
     - role: gcp
       vars:
-        gcp_zone: europe-west1-b
-        gcp_region: europe-west1
+        gcp_zone: europe-west2-b
+        gcp_region: europe-west2
         gcp_project: helpful-range-257511
         gcp_cred_kind: serviceaccount
         gcp_cred_file: credentials.json
@@ -50,6 +50,18 @@
 
 - hosts: tornado
   become: yes
-  gather_facts: no
   roles:
     - { role: zulip, addresses: addr-03 }
+
+- hosts: nginx*
+  become: yes
+  roles:
+    - web-nginx
+    - {
+      role: nginx-vhost,
+      template: uwsgi-vhost,
+      fqdn: uc.lsd.di.uminho.pt,
+      root: /srv/apps,
+      backend_addresses: "{{ groups['tornado']  }}",
+      backend_port: 5000
+      }
