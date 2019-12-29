@@ -2,7 +2,7 @@
   shell: cd /home && wget https://www.zulip.org/dist/releases/zulip-server-latest.tar.gz && tar -xf zulip-server-latest.tar.gz
 
 - name: Install zulip
-  shell: cd /home && ./zulip-server-*/scripts/setup/install --self-signed-cert --email=diogofiliperfbraga@gmail.com --hostname={{lookup('file', 'address2.yml') }}  --remote-postgres
+  shell: cd /home && ./zulip-server-*/scripts/setup/install --self-signed-cert --email=diogofiliperfbraga@gmail.com --hostname={{lookup('file', 'address2.yml') }}  --remote-postgres  --postgres-missing-dictionaries
 
 - name: Disable local postgres
   shell: sudo service postgresql stop &&  sudo update-rc.d postgresql disable
@@ -18,6 +18,12 @@
     path: "/etc/zulip/settings.py"
     regexp: "^#REMOTE_POSTGRES_PORT"
     replace: "REMOTE_POSTGRES_PORT"
+
+- name: Disable ssl
+  replace:
+    path: "/etc/zulip/settings.py"
+    regexp: "^#REMOTE_POSTGRES_SSLMODE.*"
+    replace: "REMOTE_POSTGRES_SSLMODE = 'disable'"    
 
 
 - name: Specifie postgres password

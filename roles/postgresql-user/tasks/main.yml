@@ -18,3 +18,11 @@
   when: dbname is defined
   tags:
     - db
+
+
+- name: Create a new schema zulip with a user zulip who will own it
+  become_user: postgres
+  postgresql_schema:
+    name: "{{ dbname }}"
+    owner: "{{ username }}"
+    db: "{{ dbname }}"
