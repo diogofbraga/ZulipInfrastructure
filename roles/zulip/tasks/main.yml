@@ -2,7 +2,7 @@
   shell: cd /home && wget https://www.zulip.org/dist/releases/zulip-server-latest.tar.gz && tar -xf zulip-server-latest.tar.gz
 
 - name: Install zulip
-  shell: cd /home && ./zulip-server-*/scripts/setup/install --certbot --email=diogofiliperfbraga@gmail.com --hostname=sdb.wtf  --remote-postgres  --postgres-missing-dictionaries
+  shell: cd /home && ./zulip-server-*/scripts/setup/install --self-signed-cert --email=diogofiliperfbraga@gmail.com --hostname={{lookup('file', 'address2.yml') }}  --remote-postgres  --postgres-missing-dictionaries
 
 - name: Disable local postgres
   shell: sudo service postgresql stop &&  sudo update-rc.d postgresql disable
@@ -32,8 +32,23 @@
     line: postgres_password = zulippass
     insertbefore: EOF
 
+- name: Set zulip for http part-1
+  lineinfile:
+    path: /etc/zulip/zulip.conf
+    line: "[application_server]"
+    insertbefore: EOF  
+
+- name: Set zulip for http part-2
+  lineinfile:
+    path: /etc/zulip/zulip.conf
+    line: "http_only = true"
+    insertbefore: EOF      
+
 - name: Initialize database
   shell: sudo su zulip -c '/home/zulip/deployments/current/scripts/setup/initialize-database'
 
 - name: Generate realm link
   shell: sudo su zulip -c '/home/zulip/deployments/current/manage.py generate_realm_creation_link' > /home/link.txt
+
+- name: Restart zulip
+  shell: sudo su zulip -c /home/zulip/deployments/current/scripts/restart-server
