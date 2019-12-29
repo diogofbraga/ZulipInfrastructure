@@ -25,6 +25,11 @@
     regexp: "^#REMOTE_POSTGRES_SSLMODE.*"
     replace: "REMOTE_POSTGRES_SSLMODE = 'disable'"    
 
+- name: Set reddis ip
+  replace:
+    path: "/etc/zulip/settings.py"
+    regexp: "^#REDIS_HOST.*"
+    replace: "REDIS_HOST = '{{lookup('file', 'address5.yml') }}'"    
 
 - name: Specifie postgres password
   lineinfile:

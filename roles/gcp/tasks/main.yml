@@ -41,6 +41,7 @@
           - '80'
           - '443'
           - '5432'
+          - '6379'
       - ip_protocol: icmp
     network:
       selfLink: "global/networks/{{ network.name }}"
