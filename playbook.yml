@@ -18,18 +18,21 @@
           - disk-03
           - disk-04
           - disk-05
+          - disk-06
         addresses:
           - addr-01
           - addr-02
           - addr-03
           - addr-04
           - addr-05
+          - addr-06
         instances:
           - { index: 1, tag: django1 }
           - { index: 2, tag: tornado }
           - { index: 3, tag: database1 }
           - { index: 4, tag: database2 }
           - { index: 5, tag: nginx1 }
+          - { index: 6, tag: redis }
 
 - hosts: all
   become: yes
@@ -46,6 +49,21 @@
       username: 'zulip',
       password: 'zulippass', #"{{ lookup('passwordstore','ansible/uc/db create=true length=8') }}",
       dbname: 'zulip'
+      }
+
+- hosts: redis
+  become: yes
+  roles:
+    - {role: redis,
+      ipv4_addr: 127.0.0.1,
+      redis_user: redis,
+      redis_group: redis,
+      redis_bind_addr: 0.0.0.0,
+      redis_port: 6379,
+      redis_tcp_sockets: 511,
+      redis_socket: /var/run/redis/redis.sock,
+      redis_socket_permissions: 770,
+      redis_logfile: /var/log/redis/redis-server.log
       }
 
 - hosts: tornado

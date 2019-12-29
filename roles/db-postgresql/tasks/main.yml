@@ -1,6 +1,6 @@
 ---
 - name: sleep for a specified interval
-  command: sleep 120
+  command: sleep 60
 
 - name: Display all variables/facts known for a host
   debug:
