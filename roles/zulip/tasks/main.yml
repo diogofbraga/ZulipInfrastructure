@@ -2,7 +2,7 @@
   shell: cd /home && wget https://www.zulip.org/dist/releases/zulip-server-latest.tar.gz && tar -xf zulip-server-latest.tar.gz
 
 - name: Install zulip
-  shell: cd /home && ./zulip-server-*/scripts/setup/install --self-signed-cert --email=diogofiliperfbraga@gmail.com --hostname={{lookup('file', 'address2.yml') }}  --remote-postgres  --postgres-missing-dictionaries
+  shell: cd /home && ./zulip-server-*/scripts/setup/install --certbot --email=diogofiliperfbraga@gmail.com --hostname=sdb.wtf  --remote-postgres  --postgres-missing-dictionaries
 
 - name: Disable local postgres
   shell: sudo service postgresql stop &&  sudo update-rc.d postgresql disable
