@@ -4,8 +4,8 @@
   roles:
     - role: gcp
       vars:
-        gcp_zone: europe-west2-b
-        gcp_region: europe-west2
+        gcp_zone: europe-west1-b
+        gcp_region: europe-west1
         gcp_project: helpful-range-257511
         gcp_cred_kind: serviceaccount
         gcp_cred_file: credentials.json
