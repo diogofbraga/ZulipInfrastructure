@@ -42,6 +42,8 @@
           - '443'
           - '5432'
           - '6379'
+          - '9200'
+          - '5601'
       - ip_protocol: icmp
     network:
       selfLink: "global/networks/{{ network.name }}"
@@ -58,6 +60,8 @@
         ports:
           - '5432'
           - '5000'
+          - '9200'
+          - '5601'
     source_ranges:
       - 10.128.0.0/9
     network:
@@ -121,7 +125,7 @@
     port: 22
   loop: "{{ groups['all'] }}"
 
- 
+
 
 - name: Save addresses
   local_action: copy content="{{ item }}" dest=address{{my_idx+1}}.yml
