@@ -1,0 +1,72 @@
+- name: Uncomment and change Wal Level
+  replace:
+    path: "/etc/postgresql/{{ version }}/main/postgresql.conf"
+    regexp: "^#wal_level = minimal"
+    replace: "wal_level = hot_standby"
+  notify:
+    - restart postgresql
+  tags:
+    - db
+
+- name: Uncomment and change Synchronous Commit
+  replace:
+    path: "/etc/postgresql/{{ version }}/main/postgresql.conf"
+    regexp: "^#synchronous_commit = on"
+    replace: "synchronous_commit = local"
+  notify:
+    - restart postgresql
+  tags:
+    - db
+
+- name: Uncomment and change Archive Mode
+  replace:
+    path: "/etc/postgresql/{{ version }}/main/postgresql.conf"
+    regexp: "^#archive_mode = off"
+    replace: "archive_mode = on"
+  notify:
+    - restart postgresql
+  tags:
+    - db
+
+- name: Uncomment and change Archive Command
+  replace:
+    path: "/etc/postgresql/{{ version }}/main/postgresql.conf"
+    regexp: "^#archive_command = ''"
+    replace: "archive_command = 'cp %p /var/lib/postgresql/9.6/main/archive/%f'"
+  notify:
+    - restart postgresql
+  tags:
+    - db
+
+- name: Uncomment and change Max Wal Senders
+  replace:
+    path: "/etc/postgresql/{{ version }}/main/postgresql.conf"
+    regexp: "^#max_wal_senders = 0"
+    replace: "max_wal_senders = 2"
+  notify:
+    - restart postgresql
+  tags:
+    - db
+
+- name: Uncomment and change Wal Keep Segments
+  replace:
+    path: "/etc/postgresql/{{ version }}/main/postgresql.conf"
+    regexp: "^#wal_keep_segments = 0"
+    replace: "wal_keep_segments = 10"
+  notify:
+    - restart postgresql
+  tags:
+    - db
+
+- name: Uncomment and change Synchronous Standby Names
+  replace:
+    path: "/etc/postgresql/{{ version }}/main/postgresql.conf"
+    regexp: "^#synchronous_standby_names = ''"
+    replace: "synchronous_standby_names = 'pgslave001'"
+  notify:
+    - restart postgresql
+  tags:
+    - db
+
+- name: Create a archive directory
+  shell: mkdir -p /var/lib/postgresql/{{ version }}/main/archive/ && chmod 700 /var/lib/postgresql/{{ version }}/main/archive/ && chown -R postgres:postgres /var/lib/postgresql/{{ version }}/main/archive/

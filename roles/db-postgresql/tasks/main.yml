@@ -2,17 +2,29 @@
 - name: sleep for a specified interval
   command: sleep 60
 
-- name: Display all variables/facts known for a host
-  debug:
-    var: servers
-    verbosity: 4
-
 - name: Install PostgreSQL
   apt:
     name: ['postgresql' , 'python-psycopg2']
     state: latest
   tags:
     - db
+
+- name: Install UFW Firewall
+  apt:
+    name: 'ufw'
+    state: latest
+  tags:
+    - db
+
+- name: Add ssh service to firewall
+  shell: ufw allow ssh
+
+- name: Add postgresql service to firewall
+  shell: ufw allow postgresql
+
+- name: Enable the UFW firewall
+  ufw:
+    state: enabled
 
 - name: Uncomment listen addresses configuration
   replace:
