@@ -1,12 +1,8 @@
-upstream backend {
-   {% for address in backend_addresses %}
-     server {{ hostvars[address]['ansible_%s' | format(ansible_interfaces[0])].ipv4.address  }}:443;
-   {% endfor %}
-   }
-
 server {
-        listen                  80 default_server;
-        location / {
-          proxy_pass https://backend;
-        }
-}
+    listen 80;
+    listen [::]:80;
+    hostname example.com www.example.com;
+     {% for address in backend_addresses %}
+     return 301 https://{{ hostvars[address]['ansible_%s' | format(ansible_interfaces[0])].ipv4.address  }}$request_uri;
+     {% endfor %}
+    }
